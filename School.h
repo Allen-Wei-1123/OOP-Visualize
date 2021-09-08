@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 enum gender { MALE ,FEMALE};
 
 class person{
@@ -98,6 +99,9 @@ private:
 
     std::string schoolname; 
     int schoolid;
+
+    std::unordered_map<int,bool> students;
+    
 public:
     School(std::string name,int schoolid);
 
@@ -106,6 +110,8 @@ public:
     void RemoveClass(SchoolClass*taget);
     
     std::string getSchoolName();
+
+    bool IDUsed(int id);
 
     ~School();
 };

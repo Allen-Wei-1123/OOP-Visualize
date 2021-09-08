@@ -25,9 +25,8 @@ person::person(string fname,string lastn , gender g_,string id,string schoolname
 string person::GetStudentID(){
     return this->studentid;
 }
+
 //student
-
-
 
 string student::  GetStudentID(){
     return person::GetStudentID();
@@ -158,6 +157,10 @@ string School::getSchoolName(){
 }
 
 
+bool School::IDUsed(int id){
+    return this->students[id];
+}
+
 
 
 EMSCRIPTEN_BINDINGS(my_module){
@@ -203,9 +206,11 @@ EMSCRIPTEN_BINDINGS(my_module){
     .function("InsertClass",&School::InsertClass,allow_raw_pointers())
     .function("RemoveClass",&School::RemoveClass,allow_raw_pointers())
     .function("getSchoolName",&School::getSchoolName)
+    .function("IDUsed",&School::IDUsed)
     ;
-
+    
     register_vector<SchoolClass*>("vector<SchoolClass*>");
+
 
 }
 
