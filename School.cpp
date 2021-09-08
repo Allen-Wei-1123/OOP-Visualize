@@ -175,7 +175,7 @@ EMSCRIPTEN_BINDINGS(my_module){
     .function("GetName",&person::GetName)
     .function("GetStudentID",&person::GetStudentID)
     ;
-
+    
     class_<student , base<person> >("student")
     .constructor<string,string,gender,string,string>()
     .function("setGrade",&student::setGrade)
@@ -208,7 +208,7 @@ EMSCRIPTEN_BINDINGS(my_module){
     .function("getSchoolName",&School::getSchoolName)
     .function("IDUsed",&School::IDUsed)
     ;
-    
+
     register_vector<SchoolClass*>("vector<SchoolClass*>");
 
 
