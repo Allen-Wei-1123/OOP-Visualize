@@ -52,7 +52,10 @@ app.get('/allclasses', function (req, res) {
       var theclass = allclasses.get(i);
       let name;
       for(var j = 0 ;j<allteachers.size();j++){
-        if(allteachers.get(j)['GetStudentID'] == theclass['getProfID']){
+        console.log("id is ",(allteachers.get(j)['GetStudentID']() ))
+        console.log("prof id is ",(theclass['getProfID']() ))
+        if(parseInt(allteachers.get(j)['GetStudentID']() )== theclass['getProfID']()){
+
           name = allteachers.get(j).GetName(); 
           break;
         }
@@ -81,6 +84,8 @@ app.get('/allstudents',function(req,res){
         name : thestud.GetName(),
 
         id : thestud.GetStudentID(),
+
+        
 
 
       })
@@ -112,8 +117,8 @@ app.post('/addClass',function(req,res) {
 
   var class_name = req.body.classname;
   var cap_ = req.body.cap;
-  var id_  = req.body.id_;
-
+  var id_  = req.body.id;
+  console.log(class_name,cap_,id_)
   var newclass = new Module.SchoolClass(class_name,parseInt(cap_),parseInt(id_));
 
   newSchool.InsertClass(newclass)

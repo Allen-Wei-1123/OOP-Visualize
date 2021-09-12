@@ -62,7 +62,7 @@ class SchoolClass{
         int profid; 
     public:
         
-        SchoolClass(std::string classname, int tot , int prof);
+        SchoolClass(std::string classname, int tot ,int  prof);
 
         void insertStudent(student *stud);
         void removeStudent(student *stud) ;
