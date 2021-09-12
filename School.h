@@ -59,10 +59,10 @@ class SchoolClass{
         int totalCapacity;
         person* professor; 
         std::vector<student*> students; 
-
+        int profid; 
     public:
         
-        SchoolClass(std::string classname, int tot , person* prof);
+        SchoolClass(std::string classname, int tot , int prof);
 
         void insertStudent(student *stud);
         void removeStudent(student *stud) ;
@@ -71,6 +71,10 @@ class SchoolClass{
         
         std::string GetName();
         bool cmpClasses(SchoolClass* target);
+
+        std::string GetProfName();
+
+        int getProfID();
 
         
 };
@@ -89,6 +93,8 @@ class teacher:public person{
         std::vector<SchoolClass*> getAllClasses(); 
         void InsertClass(SchoolClass* tmp);
         void RemoveClass(SchoolClass* tmp); 
+
+        
 };
 
 class School
@@ -101,6 +107,10 @@ private:
     int schoolid;
 
     std::unordered_map<int,bool> students;
+
+    std::vector<person*> students_arr;
+
+    std::vector<person*> pros_arr; 
     
 public:
     School(std::string name,int schoolid);
@@ -112,6 +122,11 @@ public:
     std::string getSchoolName();
 
     bool IDUsed(int id);
+
+    std::vector<person*> getStudents();
+    void InsertStudent(person*);
+    std::vector<person*> getProfs(); 
+    void InsertProf(person*);
 
     ~School();
 };

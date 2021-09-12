@@ -51,10 +51,10 @@ int student::GetGrade(){
 
 //schoolclass 
 
-SchoolClass :: SchoolClass(string classname,int tot,person* prof){
+SchoolClass :: SchoolClass(string classname,int tot,int prof){
     this->name = classname;
     this->totalCapacity = tot;
-    this->professor = prof; 
+    this->profid = prof; 
 }
 
 void SchoolClass::insertStudent(student *stud){
@@ -96,6 +96,14 @@ bool SchoolClass::cmpClasses(SchoolClass* target){
 
 vector<SchoolClass*> teacher:: getAllClasses(){
     return this->classes;
+}
+
+string SchoolClass::GetProfName(){
+    return this->professor->GetName();
+}
+
+int SchoolClass::getProfID(){
+    return this->profid;
 }
 
 void teacher::InsertClass(SchoolClass* tmp){
@@ -146,6 +154,7 @@ void School::RemoveClass(SchoolClass* target){
         }
     }
     if(ind == -1) return ;
+    
     this->getClasses().erase(this->getClasses().begin()+ind);
 }
 
@@ -159,6 +168,22 @@ string School::getSchoolName(){
 
 bool School::IDUsed(int id){
     return this->students[id];
+}
+
+vector<person*> School::getStudents(){
+    return this->students_arr;
+}
+
+vector<person*> School::getProfs(){
+    return this->pros_arr;
+}
+
+void School::InsertStudent(person* p){
+    this->students_arr.push_back(p);
+}
+
+void School::InsertProf(person* p){
+    this->pros_arr.push_back(p);
 }
 
 
@@ -185,19 +210,24 @@ EMSCRIPTEN_BINDINGS(my_module){
     ;
 
     class_<SchoolClass>("SchoolClass")
-    .constructor<string,int ,person*>()
+    .constructor<string,int ,int>()
     .function("insertStudent",&SchoolClass::insertStudent,allow_raw_pointers())
     .function("removeStudent",&SchoolClass::removeStudent,allow_raw_pointers())
     .function("setGrade",&SchoolClass::setGrade)
     .function("GetName",&SchoolClass::GetName)
-    .function("cmpClasses",&SchoolClass::cmpClasses,allow_raw_pointers());
+    .function("SchoolClass",&SchoolClass::GetProfName)
+    .function("cmpClasses",&SchoolClass::cmpClasses,allow_raw_pointers())
+    .function("getProfID",&SchoolClass::getProfID)
+    ;
 
     class_<teacher>("teacher")
     .constructor<string,string,gender,string,string>()
     .function("SetExp",&teacher::SetExp)
     .function("InsertClass",&teacher::InsertClass,allow_raw_pointers())
     .function("RemoveClass",&teacher::RemoveClass,allow_raw_pointers())
-    .function("getAllClasses",&teacher::getAllClasses);
+    .function("getAllClasses",&teacher::getAllClasses)
+    .function("checkType",&teacher::checkType)
+    ;
 
 
     class_<School>("School")
@@ -207,9 +237,14 @@ EMSCRIPTEN_BINDINGS(my_module){
     .function("RemoveClass",&School::RemoveClass,allow_raw_pointers())
     .function("getSchoolName",&School::getSchoolName)
     .function("IDUsed",&School::IDUsed)
+    .function("getStudents",&School::getStudents)
+    .function("getProfs",&School::getProfs,allow_raw_pointers())
+    .function("InsertStudent",&School::InsertStudent,allow_raw_pointers())
+    .function("InsertProf",&School::InsertProf,allow_raw_pointers())
     ;
 
     register_vector<SchoolClass*>("vector<SchoolClass*>");
+    register_vector<person*>("vector<person*>");
 
 
 }
